@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { TypeAnimation } from 'react-type-animation';
 import { deleteChat, renameChat, selectChat } from '../../redux/chat/chatSlice';
 import { RootState } from '../../redux/store';
-import { useState } from 'react';
 
 const iconStyle = 'opacity-70 hover:opacity-100';
 
@@ -14,21 +14,23 @@ const ChatsHistory = () => {
     (state: RootState) => state.chat
   );
 
+  // For renaming
   const [renamedChat, setRenamedChat] = useState('');
   const [newChatTitle, setNewChatTitle] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewChatTitle(e.target.value);
-  };
-
-  const handleRenameChat = (id: string, title: string) => {
-    setRenamedChat('');
-    dispatch(renameChat({ id: id, title: title }));
-  };
-
+  // Sorting the chat history by timestamp
   const sortedChatHistory = chatHistory
     .slice()
     .sort((a, b) => b.timestamp - a.timestamp);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewChatTitle(e.target.value);
+  };
+
+  const handleSubmit = (id: string, title: string) => {
+    setRenamedChat('');
+    dispatch(renameChat({ id: id, title: title }));
+  };
 
   const handleSelectChat = (id: string) => {
     dispatch(selectChat(sortedChatHistory.find((chat) => chat.id === id)));
@@ -43,16 +45,14 @@ const ChatsHistory = () => {
   };
 
   return (
-    <div
-      className={` flex flex-col h-full w-[240px] overflow-y-auto mt-1 px-1`}
-    >
+    <div className={`flex flex-col h-full w-[240px] overflow-y-auto mt-1 px-1`}>
       {sortedChatHistory.map((chat) => (
         <div>
           {renamedChat != '' && renamedChat == chat.id ? (
-            <form onSubmit={() => handleRenameChat(chat.id, newChatTitle)}>
+            <form onSubmit={() => handleSubmit(chat.id, newChatTitle)}>
               <input
                 className='bg-default w-full px-2 my-2 rounded-md'
-                value={newChatTitle}
+                defaultValue={newChatTitle}
                 onChange={handleInputChange}
                 autoFocus
               />
