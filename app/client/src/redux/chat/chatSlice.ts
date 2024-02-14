@@ -47,6 +47,7 @@ const chatSlice = createSlice({
     },
     deleteChat: (state, action) => {
       state.currentChat = undefined;
+      console.log(state.currentChat);
       state.chatHistory = [
         ...state.chatHistory.filter((chat) => chat.id !== action.payload),
       ];

@@ -22,7 +22,7 @@ const Messages = () => {
 
   return (
     <div
-      className='flex flex-col w-full h-full overflow-y-auto'
+      className={`flex flex-col w-full overflow-y-auto gap-10 items-center`}
       ref={messagesRef}
     >
       {currentChat &&
@@ -30,7 +30,9 @@ const Messages = () => {
           <div
             key={index}
             className={`
-          px-8 ${showSidebar ? 'md:px-12' : 'md:px-64'} my-4 flex items-start
+            flex items-start 2xl:w-[60%] w-full px-8 ${
+              showSidebar ? 'md:px-24' : 'md:px-64'
+            }
           `}
           >
             <div className='w-7 h-7 flex flex-shrink-0 items-center justify-center rounded-full border'>
@@ -38,7 +40,7 @@ const Messages = () => {
             </div>
             <div className='ml-2'>
               <p className='font-bold mb-1'>{message.isBot ? 'Bot' : 'User'}</p>
-              <p>{message.content}</p>
+              <p className='text-justify '>{message.content}</p>
             </div>
           </div>
         ))}
