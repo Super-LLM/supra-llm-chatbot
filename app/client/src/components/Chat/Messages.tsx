@@ -22,7 +22,7 @@ const Messages = () => {
 
   return (
     <div
-      className={`flex flex-col w-full overflow-y-auto gap-10 items-center`}
+      className={`flex flex-col w-full h-full overflow-y-auto gap-10 items-center`}
       ref={messagesRef}
     >
       {currentChat &&
