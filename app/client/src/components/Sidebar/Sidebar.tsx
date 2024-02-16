@@ -35,7 +35,7 @@ const Sidebar = () => {
       window.innerWidth < 768 &&
       !sidebarRef.current?.contains(event.target as Node)
     ) {
-      dispatch(toggleSidebar());
+      dispatch(toggleSidebar(false));
     }
   };
 
@@ -64,7 +64,7 @@ const Sidebar = () => {
         <button
           className=''
           onClick={async () => {
-            dispatch(toggleSidebar());
+            dispatch(toggleSidebar(!showSidebar));
           }}
         >
           {showSidebar ? (

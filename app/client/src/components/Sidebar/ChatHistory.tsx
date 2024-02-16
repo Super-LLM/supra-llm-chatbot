@@ -15,7 +15,7 @@ const ChatsHistory = () => {
   );
 
   // For renaming
-  const [renamedChat, setRenamedChat] = useState('');
+  const [renamedChatId, setRenamedChatId] = useState('');
   const [newChatTitle, setNewChatTitle] = useState('');
 
   // Sorting the chat history by timestamp
@@ -28,16 +28,34 @@ const ChatsHistory = () => {
   };
 
   const handleSubmit = (id: string, title: string) => {
-    setRenamedChat('');
-    dispatch(renameChat({ id: id, title: title }));
+    try {
+      setRenamedChatId('');
+      dispatch(
+        renameChat(
+          chatHistory.map((chat) =>
+            chat.id === id ? { ...chat, title } : chat
+          )
+        )
+      );
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
   };
 
   const handleSelectChat = (id: string) => {
-    dispatch(selectChat(sortedChatHistory.find((chat) => chat.id === id)));
+    try {
+      dispatch(selectChat(chatHistory.find((chat) => chat.id === id)));
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
   };
 
   const handleDeleteChat = (id: string) => {
-    dispatch(deleteChat(id));
+    try {
+      dispatch(deleteChat(chatHistory.filter((chat) => chat.id !== id)));
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
   };
 
   const isCurrentChat = (id: string) => {
@@ -48,7 +66,7 @@ const ChatsHistory = () => {
     <div className={`flex flex-col h-full w-[240px] overflow-y-auto mt-1 px-1`}>
       {sortedChatHistory.map((chat) => (
         <div>
-          {renamedChat != '' && renamedChat == chat.id ? (
+          {renamedChatId != '' && renamedChatId == chat.id ? (
             <form onSubmit={() => handleSubmit(chat.id, newChatTitle)}>
               <input
                 className='bg-default w-full px-2 my-2 rounded-md'
@@ -93,7 +111,7 @@ const ChatsHistory = () => {
               {/* CHAT ACTIONS */}
               <div
                 className={`group-hover:flex gap-1 mr-1 ${
-                  renamedChat === chat.id && 'hidden'
+                  renamedChatId === chat.id && 'hidden'
                 }
              ${currentChat?.id === chat.id ? 'flex' : 'hidden'} `}
               >
@@ -101,7 +119,7 @@ const ChatsHistory = () => {
                   className={iconStyle}
                   size={20}
                   onClick={() => {
-                    setRenamedChat(chat.id);
+                    setRenamedChatId(chat.id);
                     setNewChatTitle(chat.title);
                   }}
                 />

@@ -6,9 +6,10 @@ const Spinner = () => {
       speedMultiplier={0.75}
       size={5}
       loading={true}
-      cssOverride={{ width: '30px',color : '#343541' }}
+      cssOverride={{ width: '30px', color: '#343541', margin: '0 auto' }}
     />
   );
 };
 
 export default Spinner;
+                          

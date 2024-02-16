@@ -1,37 +1,36 @@
 import { useState } from 'react';
+import { FaArrowUp } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 import {
   sendMessageFailure,
   sendMessageStart,
-  sendMessageSuccess,
+  submitPrompt
 } from '../../redux/chat/chatSlice';
+import { AppDispatch, RootState } from '../../redux/store';
 import Spinner from '../Spinner';
-import { FaArrowUp } from 'react-icons/fa';
 
-const MessageInput = () => {
+const Prompt = () => {
   const { showSidebar, loading } = useSelector(
     (state: RootState) => state.chat
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [message, setMessage] = useState('');
+  const [prompt, setPrompt] = useState('');
 
   // For changing the submit button's color bg when input is not empty
-  const isInputEmpty = message.trim() === '';
+  const isPromptEmpty = prompt.trim() === '';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
+    setPrompt(e.target.value);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (message.trim() !== '') {
-      dispatch(sendMessageStart());
+    if (prompt.trim() !== '') {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-        dispatch(sendMessageSuccess({ content: message, isBot: false }));
-        setMessage('');
+        dispatch(sendMessageStart());
+        dispatch(submitPrompt(prompt));
+        setPrompt('');
       } catch (error) {
         dispatch(sendMessageFailure(error));
       }
@@ -50,17 +49,18 @@ const MessageInput = () => {
         <input
           type='text'
           placeholder='Message...'
+          disabled={loading}
           className='w-full border-none focus:outline-none bg-transparent placeholder:font-semibold'
           onChange={handleInputChange}
-          value={message}
+          value={prompt}
         />
         <button
-          className={`w-8 h-8 flex rounded-lg p-2  ${
-            isInputEmpty ? 'bg-gray-500' : 'bg-gray-200'
+          className={`w-8 h-8 flex items-center justify-center rounded-lg p-2 ${
+            isPromptEmpty ? 'bg-gray-500' : 'bg-gray-200'
           }`}
           title='Send Message'
         >
-          <div className='text-default'>
+          <div className='text-default '>
             {loading ? <Spinner /> : <FaArrowUp />}
           </div>
         </button>
@@ -69,4 +69,4 @@ const MessageInput = () => {
   );
 };
 
-export default MessageInput;
+export default Prompt;

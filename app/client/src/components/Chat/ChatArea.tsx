@@ -4,7 +4,7 @@ import { toggleSidebar } from '../../redux/chat/chatSlice';
 import { RootState } from '../../redux/store';
 import NewChatButton from '../NewChatButton';
 import Messages from './Messages';
-import MessageInput from './MessageInput';
+import Prompt from './Prompt';
 
 const ChatArea = () => {
   const { showSidebar, currentChat } = useSelector(
@@ -24,7 +24,7 @@ const ChatArea = () => {
           ${showSidebar && 'block'} 
           `}
           onClick={() => {
-            dispatch(toggleSidebar());
+            dispatch(toggleSidebar(true));
           }}
         />
         Supra LLM
@@ -34,7 +34,7 @@ const ChatArea = () => {
       </div>
 
       {currentChat && <Messages />}
-      {currentChat && <MessageInput />}
+      {currentChat && <Prompt />}
       {!currentChat && (
         <div className='flex justify-center items-center font-semibold text-xl'>
           Please Create New Chat or Choose An Existing Chat

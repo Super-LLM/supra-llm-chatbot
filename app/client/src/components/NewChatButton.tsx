@@ -6,6 +6,7 @@ import {
   newChatStart,
 } from '../redux/chat/chatSlice';
 import { Chat } from '../types';
+import { v4 as uuid } from 'uuid';
 
 interface NewChatProps {
   text?: string;
@@ -17,7 +18,7 @@ const NewChatButton = ({ text }: NewChatProps) => {
   const handleNewChat = async () => {
     try {
       const newChat: Chat = {
-        id: (Math.random() * 99).toString(),
+        id: uuid(),
         userId: '1',
         title: 'New Chat Is Here',
         messages: [],
