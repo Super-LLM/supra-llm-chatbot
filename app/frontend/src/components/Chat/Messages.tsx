@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
 const Messages = () => {
-  const { currentChat, showSidebar } = useSelector(
+  const { currentChat, showSidebar, error } = useSelector(
     (state: RootState) => state.chat
   );
 
@@ -42,6 +42,7 @@ const Messages = () => {
               <p className='font-bold mb-1'>{message.isBot ? 'Bot' : 'User'}</p>
               <p className='text-justify '>{message.content}</p>
             </div>
+            {error && <p>{error}</p>}
           </div>
         ))}
     </div>

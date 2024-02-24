@@ -65,7 +65,7 @@ const ChatsHistory = () => {
   return (
     <div className={`flex flex-col h-full w-[240px] overflow-y-auto mt-1 px-1`}>
       {sortedChatHistory.map((chat) => (
-        <div>
+        <div key={chat.id}>
           {renamedChatId != '' && renamedChatId == chat.id ? (
             <form onSubmit={() => handleSubmit(chat.id, newChatTitle)}>
               <input
