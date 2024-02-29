@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Chat, Message, dfChatHistory } from '../../types';
 import axios from 'axios';
-import { Buffer } from 'buffer';
+import { Chat, Message, dfChatHistory } from '../../types';
 
 const API_URL = 'https://ba55-34-31-203-243.ngrok-free.app/query/';
 // const API_URL: string = import.meta.env.VITE_API_URL;
