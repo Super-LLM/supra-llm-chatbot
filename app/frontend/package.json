@@ -25,6 +25,8 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@azure/msal-browser": "^3.10.0",
+    "@azure/msal-react": "^2.0.12",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/react-redux": "^7.1.33",
