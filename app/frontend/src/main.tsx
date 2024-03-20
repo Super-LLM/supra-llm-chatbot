@@ -4,14 +4,19 @@ import App from './App.tsx';
 import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
-import { AuthenticationResult, EventType, PublicClientApplication } from '@azure/msal-browser';
+import {
+  AuthenticationResult,
+  EventType,
+  PublicClientApplication,
+} from '@azure/msal-browser';
 import { msalConfig } from './config/authConfig.ts';
 
 /**
-* MSAL should be instantiated outside of the component tree to prevent it from being re-instantiated on re-renders.
-* For more, visit: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/getting-started.md
-*/
+ * MSAL should be instantiated outside of the component tree to prevent it from being re-instantiated on re-renders.
+ * For more, visit: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/getting-started.md
+ */
 const msalInstance = new PublicClientApplication(msalConfig);
+
 // Default to using the first account if no account is active on page load
 if (
   !msalInstance.getActiveAccount() &&
@@ -30,7 +35,6 @@ msalInstance.addEventCallback((event) => {
   ) {
     const payload = event.payload as AuthenticationResult;
     const account = payload.account;
-
     msalInstance.setActiveAccount(account);
   }
 });

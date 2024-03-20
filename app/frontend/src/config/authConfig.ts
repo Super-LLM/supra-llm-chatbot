@@ -1,4 +1,4 @@
-import { LogLevel } from '@azure/msal-browser';
+import { Configuration, LogLevel, PopupRequest } from '@azure/msal-browser';
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -9,15 +9,16 @@ import { LogLevel } from '@azure/msal-browser';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 const tenantId = import.meta.env.VITE_TENANT_ID;
 
-export const msalConfig = {
+export const msalConfig: Configuration = {
   auth: {
     clientId: clientId,
-    authority: `https://login.microsoftonline.com/${tenantId}`,
+    authority: 'https://login.microsoftonline.com/' + tenantId,
     redirectUri: '/',
     postLogoutRedirectUri: '/',
+    navigateToLoginRequestUrl: false,
   },
   cache: {
-    cacheLocation: 'sessionStorage',  // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
+    cacheLocation: 'sessionStorage', // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
     storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
   },
   system: {
@@ -57,10 +58,13 @@ export const msalConfig = {
  * For more information about OIDC scopes, visit:
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
-export const loginRequest = {
+export const loginRequest: PopupRequest = {
   scopes: ['User.Read'],
 };
 
+export const signUpRequest: PopupRequest = {
+  scopes: ['User.ReadWrite'],
+};
 /**
  * Add here the scopes to request when obtaining an access token for MS Graph API. For more information, see:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md

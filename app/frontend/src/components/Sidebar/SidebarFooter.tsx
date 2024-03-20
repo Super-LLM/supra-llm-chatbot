@@ -1,11 +1,14 @@
+import { useMsal } from '@azure/msal-react';
 import { useEffect, useRef, useState } from 'react';
 import { FaInfo, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const SidebarFooter = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [username, setUsername] = useState<string>('Username');
   const menuRef = useRef<HTMLDivElement>(null);
   const usernameButtonRef = useRef<HTMLButtonElement>(null);
+  const { instance } = useMsal();
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -13,8 +16,16 @@ const SidebarFooter = () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   });
+
+  useEffect(() => {
+    const currentUser = instance.getActiveAccount();
+    if (currentUser) {
+      setUsername(currentUser?.name || 'Username');
+    }
+  }, [instance]);
+
   const handleLogout = () => {
-    console.log('Logging out...');
+    instance.logoutRedirect();
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -65,7 +76,7 @@ const SidebarFooter = () => {
         } mt-1 p-3 w-full rounded-[6px]  hover:bg-hover flex items-center justify-start`}
       >
         <FaUser className='rounded-md mr-3' />
-        <div className='font-semibold'>Username</div>
+        <div className='font-semibold'>{username}</div>
       </button>
     </div>
   );

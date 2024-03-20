@@ -5,6 +5,7 @@
 body {
   @apply bg-default;
   @apply text-[#ECECF1];
+  margin: 0;
 }
 
 @layer utilities {

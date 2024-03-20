@@ -41,7 +41,7 @@ const ChatArea = () => {
         </div>
       )}
 
-      <p className='  py-2 text-gray-400 text-xs text-center font-semibold'>
+      <p className='py-2 text-gray-400 text-xs text-center font-semibold'>
         Version 1.0.0. Consider checking important information.
       </p>
     </div>
