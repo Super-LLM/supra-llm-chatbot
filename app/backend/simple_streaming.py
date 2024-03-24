@@ -1,9 +1,7 @@
 import asyncio
-import datetime
-import os
 from contextlib import asynccontextmanager
 from typing import Any
-
+import uvicorn
 from langchain import hub
 from langchain.agents import initialize_agent, AgentType
 from langchain.memory import ConversationBufferWindowMemory
@@ -14,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from langchain_openai import AzureChatOpenAI
 from langchain.callbacks.streaming_aiter import AsyncIteratorCallbackHandler
 from fastapi.responses import StreamingResponse
-import warnings
+
 
 # warnings.filterwarnings('ignore')
 
@@ -107,8 +105,7 @@ async def create_gen(query: str, stream_it: AsyncCallbackHandler):
 
 
 @app.post("/query/")
-async def get_response(time: datetime.datetime,
-                       query: Message = ...):
+async def get_response(query: Message = ...):
     stream_it = AsyncCallbackHandler()
     gen = create_gen(query.content, stream_it)
     return StreamingResponse(gen, media_type="text/event-stream")
@@ -123,3 +120,7 @@ async def get_health():
 async def lifespan(app: FastAPI):
     port = app.port
     print("The port used for this app is", port)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

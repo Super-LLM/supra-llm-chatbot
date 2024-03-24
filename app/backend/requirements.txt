@@ -4,3 +4,4 @@ uvicorn==0.27.1
 langchain
 langchain_openai
 langchainhub
+azure-identity
