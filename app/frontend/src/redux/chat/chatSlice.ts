@@ -28,6 +28,7 @@ const chatSlice = createSlice({
     //---------- CHAT ----------
     selectChat(state, action) {
       state.currentChat = action.payload;
+      state.error = undefined;
     },
     newChatStart: (state, action) => {
       state.currentChat = action.payload;

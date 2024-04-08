@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,11 +21,9 @@ const Prompt = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  const controllerRef = useRef<AbortController | null>(null);
+
   const [prompt, setPrompt] = useState('');
-
-  const controller = new AbortController();
-  const signal = controller.signal;
-
   // For changing the submit button's color bg when input is not empty
   const isPromptEmpty = prompt.trim() === '';
 
@@ -44,13 +42,12 @@ const Prompt = () => {
     }
   };
 
-  const handleStopStream = () => {
-    controller.abort();
-  };
-
   const submitPrompt = async (prompt: string) => {
     const userPrompt: Message = { content: prompt, isBot: false };
     let accumulatedChunks = '';
+
+    controllerRef.current = new AbortController();
+    const signal = controllerRef.current.signal;
 
     dispatch(sendMessageStart());
     setPrompt('');
@@ -105,12 +102,12 @@ const Prompt = () => {
         dispatch(streamRunning(decodedChunk));
       }
     } catch (error) {
+      const isDOMException = error instanceof DOMException;
       const isTypeError = error instanceof TypeError;
-
-      if (signal.aborted) {
+      if (isDOMException) {
         dispatch(streamStop());
+        return;
       }
-
       if (isTypeError) {
         const message = error.message;
         if (message === 'network error') {
@@ -136,6 +133,12 @@ const Prompt = () => {
           )
         );
       }
+    }
+  };
+
+  const handleStopStream = () => {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
     }
   };
 
