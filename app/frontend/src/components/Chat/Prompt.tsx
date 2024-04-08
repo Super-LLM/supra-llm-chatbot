@@ -104,7 +104,7 @@ const Prompt = () => {
     } catch (error) {
       const isDOMException = error instanceof DOMException;
       const isTypeError = error instanceof TypeError;
-      if (isDOMException) {
+      if (isDOMException && error.name === 'AbortError') {
         dispatch(streamStop());
         return;
       }
@@ -122,7 +122,7 @@ const Prompt = () => {
         if (message === 'Failed to fetch') {
           dispatch(
             streamFailure(
-              'Failed to response! Please check the Internet connection.'
+              'Failed to response! Please check the Internet connection & Try again.'
             )
           );
         }
@@ -139,6 +139,7 @@ const Prompt = () => {
   const handleStopStream = () => {
     if (controllerRef.current) {
       controllerRef.current.abort();
+      controllerRef.current = null;
     }
   };
 
