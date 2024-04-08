@@ -1,8 +1,7 @@
 import { UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
-import { signUpRequest } from '../../config/authConfig';
 import { TypeAnimation } from 'react-type-animation';
-import { animationTexts } from '../../utils/const';
 import logo from '../../assets/images/logo.png';
+import { animationTexts } from '../../utils/const';
 
 const UnauthTemplate = () => {
   const { instance } = useMsal();
@@ -15,16 +14,16 @@ const UnauthTemplate = () => {
     }
   };
 
-  const handleSignUp = async () => {
-    try {
-      await instance.loginRedirect({
-        ...signUpRequest,
-        prompt: 'create',
-      });
-    } catch (error) {
-      console.error('Error signing up:', error);
-    }
-  };
+  // const handleSignUp = async () => {
+  //   try {
+  //     await instance.loginRedirect({
+  //       ...signUpRequest,
+  //       prompt: 'create',
+  //     });
+  //   } catch (error) {
+  //     console.error('Error signing up:', error);
+  //   }
+  // };
 
   return (
     <UnauthenticatedTemplate>
@@ -44,15 +43,15 @@ const UnauthTemplate = () => {
           >
             Sign In
           </button>
-          <button
+          {/* <button
             onClick={handleSignUp}
             className='bg-cyan-500 hover:bg-cyan-700 w-1/2 py-2 font-semibold  rounded focus:outline-none focus:shadow-outline'
           >
             Sign Up
-          </button>
+          </button> */}
 
           <div className='absolute bottom-2 text-gray-400 text-base text-center font-semibold flex items-center gap-2'>
-            <img src={logo} alt='' width={40} height={40} /> <div>SupraLLM</div>
+            <img src={logo} alt='' width={40} height={40} /> <div>Supra LLM</div>
           </div>
         </div>
       </div>

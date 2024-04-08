@@ -24,8 +24,8 @@ const SidebarFooter = () => {
     }
   }, [instance]);
 
-  const handleLogout = () => {
-    instance.logoutRedirect();
+  const handleLogout = async () => {
+    await instance.logoutRedirect();
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -57,14 +57,13 @@ const SidebarFooter = () => {
           About
         </Link>
         <hr className='border-default' />
-        <Link
-          to='/'
+        <button
           onClick={handleLogout}
-          className='rounded-b-md p-3 bg-hover hover:bg-default flex items-center'
+          className='rounded-b-md p-3 bg-hover hover:bg-default flex items-center w-full'
         >
           <FaSignOutAlt className='mr-3' />
-          Logout
-        </Link>
+          Log out
+        </button>
       </span>
 
       {/* USERNAME BUTTON */}

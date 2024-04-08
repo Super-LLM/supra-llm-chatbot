@@ -5,12 +5,8 @@ import {
   newChatFinish,
   newChatStart,
 } from '../redux/chat/chatSlice';
-import { Chat } from '../types';
+import { Chat, NewChatProps } from '../types';
 import { v4 as uuid } from 'uuid';
-
-interface NewChatProps {
-  text?: string;
-}
 
 const NewChatButton = ({ text }: NewChatProps) => {
   const dispatch = useDispatch();
