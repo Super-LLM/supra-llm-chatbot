@@ -1,3 +1,5 @@
+import { IPublicClientApplication } from '@azure/msal-browser';
+
 export interface User {
   id: string;
   username: string;
@@ -18,6 +20,14 @@ export interface Message {
   isBot: boolean;
   content: string;
 }
+
+export type AppProps = {
+  instance: IPublicClientApplication;
+};
+
+export type NewChatProps = {
+  text?: string;
+};
 
 export const dfChatHistory: Chat[] = [
   {

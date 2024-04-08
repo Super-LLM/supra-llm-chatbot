@@ -13,5 +13,8 @@
         "**/*.freezed.dart": true,
         "**/*.g.dart": true
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "cSpell.words": [
+        "msal"
+    ]
 }

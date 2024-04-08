@@ -1,12 +1,15 @@
-import ChatArea from '../components/Chat/ChatArea';
-import Sidebar from '../components/Sidebar/Sidebar';
+import AuthTemplate from '../components/Home/AuthTemplate';
+import UnauthTemplate from '../components/Home/UnauthTemplate';
+
 const Home = () => {
-  return (
-    <div className='flex h-screen'>
-      <Sidebar />
-      <ChatArea />
-    </div>
-  );
+  {
+    return (
+      <div className='flex h-screen'>
+        <UnauthTemplate />
+        <AuthTemplate />
+      </div>
+    );
+  }
 };
 
 export default Home;
