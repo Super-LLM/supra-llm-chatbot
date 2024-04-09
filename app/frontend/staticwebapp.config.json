@@ -5,11 +5,5 @@
     ".js": "application/javascript",
     ".mjs": "application/javascript",
     ".ts": "application/javascript"
-  },
-  "routes": [
-    {
-      "route": "/*",
-      "allowedRoles": ["authenticated"]
-    }
-  ]
+  }
 }
