@@ -5,5 +5,17 @@
     ".js": "application/javascript",
     ".mjs": "application/javascript",
     ".ts": "application/javascript"
+  },
+
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/bfcdf6eb-f2f0-47a6-80e9-a055988c16c7/v2.0",
+          "clientIdSettingName": "AZURE_CLIENT_ID",
+          "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+        }
+      }
+    }
   }
 }
