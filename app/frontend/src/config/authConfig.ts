@@ -12,7 +12,7 @@ import {
  */
 
 const clientId = import.meta.env.VITE_CLIENT_ID;
-const tenantId = import.meta.env.VITE_TENANT_ID;
+// const tenantId = import.meta.env.VITE_TENANT_ID;
 
 export const msalConfig: Configuration = {
   auth: {
