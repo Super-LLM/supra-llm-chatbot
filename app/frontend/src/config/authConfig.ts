@@ -17,7 +17,7 @@ const tenantId = import.meta.env.VITE_TENANT_ID;
 export const msalConfig: Configuration = {
   auth: {
     clientId: clientId,
-    authority: 'https://login.microsoftonline.com/' + tenantId,
+    authority: 'https://login.microsoftonline.com/' + 'bfcdf6eb-f2f0-47a6-80e9-a055988c16c7',
     redirectUri: '/',
     postLogoutRedirectUri: '/',
     navigateToLoginRequestUrl: false,
