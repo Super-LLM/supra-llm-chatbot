@@ -12,8 +12,11 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 
 
-COPY . /code/backend
+
+# Now copy the entire backend directory content into /code
+COPY . /code
 
 
 
-CMD ["uvicorn", "backend.simple_streaming:app", "--host", "0.0.0.0", "--port", "80"]
+# Command to run the application
+CMD ["uvicorn", "student_agent_streaming:app", "--host", "0.0.0.0", "--port", "80"]
