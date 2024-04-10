@@ -6,6 +6,12 @@
     ".mjs": "application/javascript",
     ".ts": "application/javascript"
   },
+  "responseOverrides": {
+    "401": {
+      "statusCode": 302,
+      "redirect": "/.auth/login/aad"
+    }
+  },
 
   "auth": {
     "identityProviders": {
