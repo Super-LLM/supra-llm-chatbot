@@ -1,26 +1,23 @@
+from langchain.callbacks import AsyncIteratorCallbackHandler
+from langchain_core.outputs import LLMResult
+from langchain_openai import AzureChatOpenAI
+
+import warnings
+
+from agent import create_agent
 import asyncio
 from contextlib import asynccontextmanager
 from typing import Any
 import uvicorn
-from langchain import hub
-from langchain.agents import initialize_agent, AgentType
-from langchain.memory import ConversationBufferWindowMemory
-from langchain_core.outputs import LLMResult
 from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from langchain_openai import AzureChatOpenAI
-from langchain.callbacks.streaming_aiter import AsyncIteratorCallbackHandler
 from fastapi.responses import StreamingResponse
 
-
-# warnings.filterwarnings('ignore')
-
-# config = dotenv_values(".env")
+warnings.filterwarnings('ignore')
 
 api_version = "2024-02-15-preview"
 DEPLOYMENT_NAME = "gpt-35-turbo-default"
-
 llm = AzureChatOpenAI(
     openai_api_version=api_version,
     azure_deployment=DEPLOYMENT_NAME,
@@ -29,25 +26,7 @@ llm = AzureChatOpenAI(
     temperature=0.0
 )
 
-memory = ConversationBufferWindowMemory(
-    memory_key="chat_history",
-    k=5,
-    return_messages=True,
-    output_key="output"
-)
-prompt = hub.pull("hwchase17/structured-chat-agent")
-
-# TODO: Replace with a non depricated tool. The code above would be a start as long as you replace tools.
-agent = initialize_agent(
-    agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
-    tools=[],
-    llm=llm,
-    verbose=True,
-    max_iterations=3,
-    early_stopping_method="generate",
-    memory=memory,
-    return_intermediate_steps=False,
-)
+agent = create_agent(llm=llm)
 
 app = FastAPI()
 
@@ -67,19 +46,19 @@ class Message(BaseModel):
 
 
 class AsyncCallbackHandler(AsyncIteratorCallbackHandler):
+    """
+    This is a langchain CallbackHandler for streaming llm results asynchronously.
+    """
     content: str = ""
     final_answer: bool = False
 
-    def __init__(self) -> None:
-        super().__init__()
-
     async def on_llm_new_token(self, token: str, **kwargs: Any) -> None:
         self.content += token
+        # if we passed the final answer, we put tokens in queue
         if self.final_answer:
-            if '"action_input": "' in self.content:
-                if token not in ['"', "}"]:
-                    self.queue.put_nowait(token)
-        elif "Final Answer" in self.content:
+            if token not in ['"', "}"]:
+                self.queue.put_nowait(token)
+        elif "Final Answer:" in self.content:
             self.final_answer = True
             self.content = ""
 

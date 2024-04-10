@@ -8,6 +8,10 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+env: 
+  VITE_API_URL: ${{secrets.VITE_API_URL}}
+  VITE_CLIENT_ID: ${{secrets.VITE_CLIENT_ID}}
+  VITE_TENANT_ID: ${{secrets.VITE_TENANT_ID}}
 
 jobs:
   build_and_deploy_job:
@@ -23,7 +27,10 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_JOLLY_GROUND_0469F2203 }}
+          VITE_API_URL: ${{env.VITE_API_URL}}
+          VITE_CLIENT_ID: ${{env.VITE_CLIENT_ID}}
+          VITE_TENANT_ID: ${{env.VITE_TENANT_ID}}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLUE_FLOWER_0B50D2A03 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
@@ -42,5 +49,5 @@ jobs:
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_JOLLY_GROUND_0469F2203 }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLUE_FLOWER_0B50D2A03 }}
           action: "close"
