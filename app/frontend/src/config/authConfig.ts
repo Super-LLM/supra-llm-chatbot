@@ -22,6 +22,7 @@ export const msalConfig: Configuration = {
     postLogoutRedirectUri: '/',
     navigateToLoginRequestUrl: false,
   },
+
   cache: {
     // Configures cache location. "sessionStorage" is more secure,
     // but "localStorage" gives you SSO between tabs.
@@ -29,6 +30,7 @@ export const msalConfig: Configuration = {
     storeAuthStateInCookie: false,
   },
   system: {
+    allowNativeBroker: true,
     loggerOptions: {
       loggerCallback: (
         level: LogLevel,
