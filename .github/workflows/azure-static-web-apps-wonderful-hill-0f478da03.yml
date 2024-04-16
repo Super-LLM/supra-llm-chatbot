@@ -23,6 +23,10 @@ jobs:
           submodules: true
           lfs: false
       - name: Build And Deploy
+        env: # Add environment variables here
+            VITE_API_URL: ${{ secrets.VITE_API_URL }}
+            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+            VITE_TENANT_ID: ${{ secrets.VITE_TENANT_ID }}
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
@@ -36,10 +40,7 @@ jobs:
           output_location: "/dist" # Built app content directory - optional
           app_build_command: 'npm run build' 
           ###### End of Repository/Build Configurations ######
-        env: # Add environment variables here
-            VITE_API_URL: ${{ secrets.VITE_API_URL }}
-            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
-            VITE_TENANT_ID: ${{ secrets.VITE_TENANT_ID }}
+       
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
