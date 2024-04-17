@@ -46,7 +46,7 @@ const Messages = () => {
               </div>
               <div className='ml-2'>
                 <p className='font-bold mb-1'>
-                  {message.isBot ? 'Bot' : 'User'}
+                  {message.isBot ? 'SupraLLM' : 'You'}
                 </p>
                 <p className='text-justify'>
                   {isBotAnswering
@@ -61,13 +61,14 @@ const Messages = () => {
                         </span>
                       ))
                     : message.content}
-                 
                 </p>
               </div>
             </div>
           );
         })}
-      {error && typeof error === 'string' && <p className='text-red-500 font-bold'>{error}</p>}
+      {error && typeof error === 'string' && (
+        <p className='text-red-500 font-bold'>{error}</p>
+      )}
     </div>
   );
 };
