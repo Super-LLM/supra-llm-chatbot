@@ -14,6 +14,7 @@ import {
 const clientId = import.meta.env.VITE_CLIENT_ID;
 const tenantId = import.meta.env.VITE_TENANT_ID;
 console.log('ENV: ', clientId, tenantId);
+console.log('Import Meta: ', import.meta);
 
 export const msalConfig: Configuration = {
   auth: {
