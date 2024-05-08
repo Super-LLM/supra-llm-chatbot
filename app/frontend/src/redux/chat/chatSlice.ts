@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Chat, Message, dfChatHistory } from '../../types';
+import { Chat, Message } from '../../types';
 
 interface ChatState {
   chatHistory: Chat[];
@@ -9,22 +9,41 @@ interface ChatState {
   showSidebar: boolean;
   error: string | undefined;
   loading: boolean;
+  isDeleteDialogOpen: false;
+  idToDelete: string | null;
 }
 
 const initialState: ChatState = {
-  chatHistory: dfChatHistory,
+  chatHistory: [],
   currentChat: undefined,
   stream: [],
   showTypeAnimation: false,
   showSidebar: true,
   error: undefined,
   loading: false,
+  isDeleteDialogOpen: false,
+  idToDelete: null,
 };
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    // ---------- CHAT HISTORY ----------
+    setChatHistory(state, action) {
+      state.chatHistory = [];
+      state.chatHistory = action.payload;
+
+      if (state.currentChat) {
+        state.currentChat = state.chatHistory.find(
+          (chat) => chat.id === state.currentChat!.id
+        );
+      }
+    },
+    emptyChatHistory(state) {
+      state.chatHistory = [];
+    },
+
     //---------- CHAT ----------
     selectChat(state, action) {
       state.currentChat = action.payload;
@@ -47,7 +66,9 @@ const chatSlice = createSlice({
     },
     deleteChat: (state, action) => {
       state.currentChat = undefined;
-      state.chatHistory = action.payload;
+      state.chatHistory = state.chatHistory.filter(
+        (chat) => chat.id !== action.payload
+      );
     },
 
     //---------- MESSAGE ----------
@@ -91,10 +112,10 @@ const chatSlice = createSlice({
             }
           : chat
       );
+
       state.loading = false;
       state.stream = [];
     },
-
     streamFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
@@ -104,14 +125,23 @@ const chatSlice = createSlice({
       state.loading = false;
       state.stream = [];
     },
+
     //---------- SIDEBAR ----------
     toggleSidebar: (state, action) => {
       state.showSidebar = action.payload;
+    },
+    setIsDeleteDialogOpen: (state, action) => {
+      state.isDeleteDialogOpen = action.payload;
+    },
+    setIdToDelete: (state, action) => {
+      state.idToDelete = action.payload;
     },
   },
 });
 
 export const {
+  setChatHistory,
+  emptyChatHistory,
   selectChat,
   sendMessageStart,
   sendMessageSuccess,
@@ -127,6 +157,8 @@ export const {
   renameChat,
   deleteChat,
   toggleSidebar,
+  setIsDeleteDialogOpen,
+  setIdToDelete,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -51,7 +51,8 @@ const UnauthTemplate = () => {
           </button> */}
 
           <div className='absolute bottom-2 text-gray-400 text-base text-center font-semibold flex items-center gap-2'>
-            <img src={logo} alt='' width={40} height={40} /> <div>Supra LLM</div>
+            <img src={logo} alt='' width={40} height={40} />
+            <div>Supra LLM</div>
           </div>
         </div>
       </div>

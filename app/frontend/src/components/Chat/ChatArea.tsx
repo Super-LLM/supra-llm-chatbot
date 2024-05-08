@@ -36,7 +36,7 @@ const ChatArea = () => {
       {currentChat && <Messages />}
       {currentChat && <Prompt />}
       {!currentChat && (
-        <div className='flex justify-center items-center font-semibold text-xl'>
+        <div className='flex justify-center items-center font-semibold text-xl px-2'>
           Please Create New Chat or Choose An Existing Chat
         </div>
       )}

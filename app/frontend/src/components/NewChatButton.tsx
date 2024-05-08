@@ -1,28 +1,41 @@
 import { TfiWrite } from 'react-icons/tfi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   newChatFailure,
   newChatFinish,
   newChatStart,
 } from '../redux/chat/chatSlice';
+import { RootState } from '../redux/store';
 import { Chat, NewChatProps } from '../types';
-import { v4 as uuid } from 'uuid';
+import { createRequest } from '../utils/apiService';
 
 const NewChatButton = ({ text }: NewChatProps) => {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state: RootState) => state.user);
 
   const handleNewChat = async () => {
     try {
-      const newChat: Chat = {
-        id: uuid(),
-        userId: '1',
+      const defaultNewChat: Chat = {
+        // id: uuid(),
+        userId: currentUser!.id,
         title: 'New Chat Is Here',
         messages: [],
         timestamp: Date.now(),
       };
-      dispatch(newChatStart(newChat));
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-      dispatch(newChatFinish());
+
+      const response = await createRequest(defaultNewChat);
+
+      if (response.ok) {
+        const finalNewChat: Chat = await response.json();
+        dispatch(newChatStart(finalNewChat));
+
+        // Set timeout for Text Animation to finish
+        setTimeout(() => {
+          dispatch(newChatFinish());
+        }, 2000);
+      } else {
+        throw new Error('Failed to create new chat');
+      }
     } catch (error) {
       dispatch(newChatFailure(error));
     }

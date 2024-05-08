@@ -14,16 +14,16 @@ import {
 import { AppDispatch, RootState } from '../../redux/store';
 import { Message } from '../../types';
 import Spinner from '../Spinner';
+import { updateRequest } from '../../utils/apiService';
 
 const Prompt = () => {
-  const { showSidebar, loading } = useSelector(
+  const { showSidebar, loading, currentChat } = useSelector(
     (state: RootState) => state.chat
   );
   const dispatch = useDispatch<AppDispatch>();
-
   const controllerRef = useRef<AbortController | null>(null);
-
   const [prompt, setPrompt] = useState('');
+
   // For changing the submit button's color bg when input is not empty
   const isPromptEmpty = prompt.trim() === '';
 
@@ -36,9 +36,23 @@ const Prompt = () => {
     if (prompt.trim() !== '') {
       try {
         await submitPrompt(prompt);
+        const id = currentChat!.id!;
+        const [secondLastMessage, lastMessage] =
+          currentChat!.messages.slice(-2);
+        const messages = [secondLastMessage, lastMessage];
+        if (secondLastMessage.content != '' && lastMessage.content != '') {
+          await updateRequest(id, null, messages);
+        }
       } catch (error) {
         dispatch(sendMessageFailure(error));
       }
+    }
+  };
+
+  const handleStopStream = () => {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+      controllerRef.current = null;
     }
   };
 
@@ -91,6 +105,7 @@ const Prompt = () => {
               isBot: true,
             })
           );
+
           break;
         }
 
@@ -133,13 +148,6 @@ const Prompt = () => {
           )
         );
       }
-    }
-  };
-
-  const handleStopStream = () => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-      controllerRef.current = null;
     }
   };
 

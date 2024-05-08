@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { AiOutlineCloseSquare } from 'react-icons/ai';
 import {
   TbArrowBadgeLeftFilled,
@@ -7,22 +8,17 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/chat/chatSlice';
 import { RootState } from '../../redux/store';
+import { useOutsideClickListener } from '../../utils/outsideClickListener';
 import NewChatButton from '../NewChatButton';
 import ChatsHistory from './ChatHistory';
 import SidebarFooter from './SidebarFooter';
-import { useEffect, useRef } from 'react';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const { showSidebar } = useSelector((state: RootState) => state.chat);
+  const { showSidebar, isDeleteDialogOpen } = useSelector(
+    (state: RootState) => state.chat
+  );
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  });
 
   const handleOutsideClick = (event: MouseEvent) => {
     /* 
@@ -33,11 +29,14 @@ const Sidebar = () => {
     if (
       showSidebar &&
       window.innerWidth < 768 &&
-      !sidebarRef.current?.contains(event.target as Node)
+      !sidebarRef.current?.contains(event.target as Node) &&
+      !isDeleteDialogOpen
     ) {
       dispatch(toggleSidebar(false));
     }
   };
+
+  useOutsideClickListener(handleOutsideClick);
 
   return (
     <div ref={sidebarRef} className='absolute h-screen md:relative'>

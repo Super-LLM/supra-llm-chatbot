@@ -1,6 +1,4 @@
-import {
-  InteractionRequiredAuthError
-} from '@azure/msal-browser';
+import { InteractionRequiredAuthError } from '@azure/msal-browser';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
@@ -8,8 +6,6 @@ import { popupLoginRequest, ssoSilentLoginRequest } from './config/authConfig';
 import About from './pages/About';
 import Home from './pages/Home';
 import { AppProps } from './types';
-
-
 
 const App = ({ instance }: AppProps) => {
   return (

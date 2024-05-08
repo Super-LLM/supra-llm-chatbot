@@ -1,30 +1,36 @@
 import { useMsal } from '@azure/msal-react';
 import { useEffect, useRef, useState } from 'react';
 import { FaInfo, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { emptyChatHistory } from '../../redux/chat/chatSlice';
+import { RootState } from '../../redux/store';
+import { setCurrentUser, signOutUser } from '../../redux/user/userSlice';
+import { User } from '../../types';
+import { useOutsideClickListener } from '../../utils/outsideClickListener';
 
 const SidebarFooter = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [username, setUsername] = useState<string>('Username');
   const menuRef = useRef<HTMLDivElement>(null);
   const usernameButtonRef = useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const { instance } = useMsal();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  });
+    const activeAccount = instance.getActiveAccount();
 
-  useEffect(() => {
-    const currentUser = instance.getActiveAccount();
-    if (currentUser) {
-      setUsername(currentUser?.name || 'Username');
+    if (activeAccount) {
+      const id = activeAccount.localAccountId;
+      const username = activeAccount.name!;
+      const currentUser: User = { id, username };
+      dispatch(setCurrentUser(currentUser));
     }
   }, [instance]);
 
   const handleLogout = async () => {
+    dispatch(signOutUser());
+    dispatch(emptyChatHistory());
     await instance.logoutRedirect();
   };
 
@@ -37,6 +43,8 @@ const SidebarFooter = () => {
       setMenuOpen(false);
     }
   };
+
+  useOutsideClickListener(handleOutsideClick);
 
   return (
     <div className='relative'>
@@ -75,7 +83,7 @@ const SidebarFooter = () => {
         } mt-1 p-3 w-full rounded-[6px]  hover:bg-hover flex items-center justify-start`}
       >
         <FaUser className='rounded-md mr-3' />
-        <div className='font-semibold'>{username}</div>
+        <div className='font-semibold'>{currentUser?.username}</div>
       </button>
     </div>
   );
