@@ -1,5 +1,7 @@
 import { Chat, Message } from '../types';
 
+// NOTE: The integration with Azure Functions requires the Static Web Apps STANDARD plan.
+
 const createRequest = (chat: Chat) => {
   return fetch(import.meta.env.VITE_CREATE_NEW_URL, {
     method: 'POST',
@@ -9,7 +11,7 @@ const createRequest = (chat: Chat) => {
 };
 
 const readRequest = (userId: string) => {
-  console.log(import.meta.env.VITE_GET_CHAT_HISTORY_URL);
+  // console.log(import.meta.env.VITE_GET_CHAT_HISTORY_URL);
   return fetch(
     import.meta.env.VITE_GET_CHAT_HISTORY_URL +
       '&' +
