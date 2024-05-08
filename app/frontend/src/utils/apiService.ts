@@ -9,6 +9,7 @@ const createRequest = (chat: Chat) => {
 };
 
 const readRequest = (userId: string) => {
+  console.log(import.meta.env.VITE_GET_CHAT_HISTORY_URL);
   return fetch(
     import.meta.env.VITE_GET_CHAT_HISTORY_URL +
       '&' +
