@@ -8,10 +8,6 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
-env: # Add environment variables here
-    VITE_API_URL: ${{ secrets.VITE_API_URL }}
-    VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
-    VITE_TENANT_ID: ${{ secrets.VITE_TENANT_ID }}
     
 jobs:
   build_and_deploy_job:
@@ -25,9 +21,13 @@ jobs:
           lfs: false
       - name: Build And Deploy
         env: # Add environment variables here
-            VITE_API_URL: ${{ secrets.VITE_API_URL }}
-            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
-            VITE_TENANT_ID: ${{ secrets.VITE_TENANT_ID }}
+              VITE_API_URL: ${{ secrets.VITE_API_URL }}
+              VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+              VITE_TENANT_ID: ${{ secrets.VITE_TENANT_ID }}
+              VITE_CREATE_NEW_URL: ${{ secrets.VITE_CREATE_NEW_URL }}
+              VITE_GET_CHAT_HISTORY_URL: ${{ secrets.VITE_GET_CHAT_HISTORY_URL }}
+              VITE_UPDATE_URL: ${{ secrets.VITE_UPDATE_URL }}
+              VITE_DELETE_URL: ${{ secrets.VITE_DELETE_URL }}
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
