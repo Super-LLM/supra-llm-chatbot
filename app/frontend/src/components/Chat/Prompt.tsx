@@ -73,6 +73,7 @@ const Prompt = () => {
       body: JSON.stringify({ content: prompt }),
       headers: {
         'Content-Type': 'application/json',
+        AccessControlAllowOrigin: '*',
         Accept: 'text/event-stream',
       },
       signal,
