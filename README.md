@@ -1,8 +1,13 @@
-# AI Web App for University Enrollment and Assistance
+# AI Web App for University Enrollment and Assistance (Supra LLM)
 
 Welcome to our AI-powered web application to assist international students with university enrollment, residency, and housing in Finland.
 
 ## Overview
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=azure,vite,react,ts,nodejs,tailwind,redux,mongodb,python,fastapi" />
+  </a>
+</p>
 
 This project utilizes cutting-edge technologies to provide a seamless user experience and robust functionality. Here's what you need to know:
 
