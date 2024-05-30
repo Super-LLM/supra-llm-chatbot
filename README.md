@@ -24,6 +24,12 @@ This project utilizes cutting-edge technologies to provide a seamless user exper
 - Residency and Housing Assistance: Information and resources for obtaining residency permits and finding suitable housing options.
 - Contact Integration: Seamless integration with contact channels, allowing users to reach out for assistance or inquiries.
 
+## Screenshots
+
+<img src ="https://github.com/Super-LLM/supra-llm-chatbot/assets/44105063/a7da6a32-f073-4234-b96e-588fb3944c4d">
+<img src="https://github.com/Super-LLM/supra-llm-chatbot/assets/44105063/8cd28518-66eb-4e89-91f8-8b1448694f6e">
+<img src="https://github.com/Super-LLM/supra-llm-chatbot/assets/44105063/4fa75c65-5280-496d-8d49-d06ea2f847f3">
+
 ## Azure Diagram
 ![image](https://github.com/Super-LLM/fastapi-chatbot/assets/44105063/15b24cd4-4798-471b-a3c5-aab88339555b)
 
