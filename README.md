@@ -38,4 +38,4 @@ This project utilizes cutting-edge technologies to provide a seamless user exper
 - Lien Tran - Project Manager
 - Hong Huynh - Frontend Developer *(Azure Entra ID, Azure Cosmos DB for MongoDB, Azure Function, Static Web App)*
 - Max Väistö - Backend Developer *(Azure Web Service using Container)*
-- Linsen Gao - Backend Developer
+- Linsen Gao - Backend Developer *(Chatbot logic)*
